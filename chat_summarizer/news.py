@@ -33,19 +33,22 @@ def news_content():
             soup = BeautifulSoup(page.content, 'html.parser')
             title=soup.find("h1", { "id" : "main-heading" }).text
             a=soup.find_all('div',class_="ssrcss-11r1m41-RichTextComponentWrapper ep2nwvo0")
+            img_url=soup.find('img',class_="ssrcss-evoj7m-Image edrdn950")
+            img_url=img_url['src']
             for a in a:
                 content=content+str(a.text)
 
             if title and content != "":
-                    error_code=0
-                    unsummarized_news={
-                    'title':f'{title}',
-                    'content':f'{content}',
-                    'url':f'{url}',
-                    'error_code':f'{error_code}'
-                    }
-                    data.append(unsummarized_news)
-            
+                error_code=0
+                unsummarized_news={
+                'title':f'{title}',
+                'content':f'{content}',
+                'url':f'{url}',
+                'img_url':f'{img_url}',
+                'error_code':f'{error_code}'
+                }
+                data.append(unsummarized_news)
+        
         except Exception as e:
             error_code=1
         
@@ -53,9 +56,9 @@ def news_content():
 
 data=news_content()
 
-with open('unsummarized_news.json', 'w') as fp:
+with open('unsummarized_news3.json', 'w') as fp:
     for data in data:
         json.dump(data, fp)
 
-
+        
 
